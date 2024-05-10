@@ -1,14 +1,6 @@
-pandas
-sklearn.model_selection
-sklearn.tree
-sklearn.neighbors
-sklearn.naive_bayes
-sklearn.metrics
-sklearn
-sklearn.metrics
-sklearn.linear_model
+pandas==2.2.2
+scikit-learn==0.24.2
 streamlit
-requests
-streamlit_option_menu
 joblib
 numpy
+requests
