@@ -5,7 +5,7 @@ from streamlit_option_menu import option_menu
 import streamlit_lottie as st_lottie 
 import joblib
 import numpy as np 
-import PIL as Image
+
 
 
 
@@ -103,7 +103,7 @@ elif choose == 'About':
           st.write("some of whom have a stroke and some of them do not.")
           st.write("After analyzing the data,")
           st.write("the program predicts whether the person has a stroke or not with the new data.✨🚀")
-          st.image("zoz.png")
+
 
 
 elif choose == 'Contact':
