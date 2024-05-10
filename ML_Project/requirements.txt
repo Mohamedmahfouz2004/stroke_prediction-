@@ -4,3 +4,4 @@ streamlit
 joblib
 numpy
 requests
+streamlit_option_menu
