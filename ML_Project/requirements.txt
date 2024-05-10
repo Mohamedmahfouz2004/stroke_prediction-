@@ -1,0 +1,14 @@
+pandas
+sklearn.model_selection
+sklearn.tree
+sklearn.neighbors
+sklearn.naive_bayes
+sklearn.metrics
+sklearn
+sklearn.metrics
+sklearn.linear_model
+streamlit
+requests
+streamlit_option_menu
+joblib
+numpy
