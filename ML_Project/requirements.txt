@@ -6,4 +6,3 @@ numpy
 requests
 streamlit_option_menu
 streamlit-lottie
-PIL
