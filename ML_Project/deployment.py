@@ -2,10 +2,8 @@ import streamlit as st
 import requests
 import pandas as pd 
 from streamlit_option_menu import option_menu
-import streamlit_lottie as st_lottie 
 import joblib
 import numpy as np 
-
 
 
 
@@ -25,21 +23,22 @@ def load_lottie(url):
 
 model = joblib.load(open("stroke","rb"))
 
-from ML_project import classifier , dt_classifier , knn , nb
+from ML_project import classifier , dt_classifier , rf_classifier , nb
 def predict(age ,  hypertension , heart_disease , avg_glucose_level , bmi ,  gender_encoder ,  Residence_type_encoder ,  smoking_status_encoder):
     features = np.array([age ,  hypertension , heart_disease , avg_glucose_level , bmi ,  gender_encoder ,  Residence_type_encoder ,  smoking_status_encoder]).reshape(1, -1)
-    
+
+    prediction_cm = classifier.predict(features)
     # Prediction using decision tree
     prediction_dt = dt_classifier.predict(features)
     
     # Prediction using KNN
-    prediction_knn = knn.predict(features)
+    prediction_rf = rf_classifier.predict(features)
     
     # Prediction using Naive Bayes
     prediction_nb = nb.predict(features)
     
     # Return all predictions
-    return  prediction_dt, prediction_knn, prediction_nb
+    return  prediction_dt, prediction_rf, prediction_nb , prediction_cm
 
 
 with st.sidebar:
@@ -77,16 +76,17 @@ if choose =='Home':
         
 
           # predict
-        sample_dt, sample_knn, sample_nb = predict(age ,  hypertension , heart_disease , avg_glucose_level , bmi ,  gender_encoder ,  Residence_type_encoder ,  smoking_status_encoder)
+        sample_cm ,sample_dt, sample_rf, sample_nb = predict(age ,  hypertension , heart_disease , avg_glucose_level , bmi ,  gender_encoder ,  Residence_type_encoder ,  smoking_status_encoder)
           
         if st.button('predict stroke'):
           st.write("confusion matrix accuracy: ",accuracy)
           st.write("Decision Tree classification accuracy:", accuracy2)
-          st.write("KNeighbors classification Accuracy:", accuracy3)
+          st.write("Random Forcet classification Accuracy:", accuracy3)
           st.write("Naive Bayes classification accuracy:", accuracy4)
           st.write(" ")
+          st.write("confusion matrix prediction: ","Has a stroke"if sample_cm == 1 else "No having a stroke")
           st.write("Decision Tree prediction:", "Has a stroke" if sample_dt == 1 else "No having a stroke")
-          st.write("KNeighbors prediction:", "Has a stroke" if sample_knn == 1 else "No having a stroke")
+          st.write("Random Forcet prediction:", "Has a stroke" if sample_rf == 1 else "No having a stroke")
           st.write("Naive Bayes prediction:", "Has a stroke" if sample_nb == 1 else "No having a stroke")
 
 
@@ -103,7 +103,6 @@ elif choose == 'About':
           st.write("some of whom have a stroke and some of them do not.")
           st.write("After analyzing the data,")
           st.write("the program predicts whether the person has a stroke or not with the new data.✨🚀")
-
 
 
 elif choose == 'Contact':
