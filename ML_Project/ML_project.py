@@ -1,12 +1,11 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix, classification_report
-import pickle
 from sklearn.linear_model import LogisticRegression
 import sklearn.model_selection as model_selection
 import streamlit as st
@@ -31,19 +30,22 @@ new_inputs = inputs.drop(['gender', 'Residence_type', 'smoking_status'], axis='c
 new_inputs.head()
 
 
-X_train,X_test,y_train,y_test = model_selection.train_test_split(new_inputs,target,test_size=0.2,random_state=4)   # ملكش دعوة بده ده علي حسب البروجيكت بتاعك من او هنا لحد فوق
+X_train,X_test,y_train,y_test = model_selection.train_test_split(new_inputs,target,test_size=0.2,random_state=4)  
 
+# ============================================================
+# confusion matrix
 
 classifier = LogisticRegression(random_state = 0)
 classifier.fit(X_train, y_train)
 y_pred = classifier.predict(X_test)
 cm = confusion_matrix(y_test, y_pred)
 cm
-global accuracy
+
 accuracy = accuracy_score(y_test, y_pred)
-# print("confusion matrix accuracy: ",accuracy)
 
 
+# ==============================================================
+# Desision Tree
 
 dt_classifier = DecisionTreeClassifier()
 
@@ -56,17 +58,21 @@ predictions = dt_classifier.predict(X_test)
 # Evaluate accuracy
 
 accuracy2 = accuracy_score(y_test, predictions)
-# print("Decision Tree classification accuracy:", accuracy2)
 
 
+# ===============================================================
+# Random Forcest
 
-knn = KNeighborsClassifier(n_neighbors=3)
-knn.fit(X_train, y_train)
+rf_classifier = RandomForestClassifier()
+rf_classifier.fit(X_train, y_train)
 
-predict = knn.predict(X_test)
+# Model evaluation
+y_pred = rf_classifier.predict(X_test)
+accuracy3 = accuracy_score(y_test, y_pred)
 
-accuracy3 = accuracy_score(y_test, predict)
-# print("KNeighbors classification Accuracy:", accuracy3)
+
+# ===============================================================
+# Naive Bayes 
 
 nb = GaussianNB()
 
@@ -78,13 +84,16 @@ predictions = nb.predict(X_test)
 
 # Evaluate accuracy
 accuracy4 = accuracy_score(y_test, predictions)
-# print("Naive Bayes classification accuracy:", accuracy4)
+
 
 
 
 # ----------------------------------------------------
 import joblib
 file = 'stroke'
-joblib.dump( classifier,"stroke")
+joblib.dump(classifier, "classifier.pkl")
+joblib.dump(nb, "nb.pkl")
+joblib.dump(rf_classifier, "rf_classifier.pkl")
+joblib.dump(dt_classifier, "dt_classifier.pkl")
 model = joblib.load(open("stroke","rb"))
 # ----------------------------------------------------
