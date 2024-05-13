@@ -4,6 +4,8 @@ import pandas as pd
 from streamlit_option_menu import option_menu
 import joblib
 import numpy as np 
+import matplotlib.pyplot as plt
+
 
 
 
@@ -24,6 +26,7 @@ def load_lottie(url):
 model = joblib.load(open("stroke","rb"))
 
 from ML_project import classifier , dt_classifier , rf_classifier , nb
+from ML_project import plt
 def predict(age ,  hypertension , heart_disease , avg_glucose_level , bmi ,  gender_encoder ,  Residence_type_encoder ,  smoking_status_encoder):
     features = np.array([age ,  hypertension , heart_disease , avg_glucose_level , bmi ,  gender_encoder ,  Residence_type_encoder ,  smoking_status_encoder]).reshape(1, -1)
 
@@ -95,7 +98,16 @@ if choose =='Home':
 
 
 elif choose == 'Graphs':
-          st.write("sorry! currently not supported☺.")
+    st.write(" ## Model Accuracies:")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    models = ['Logistic Regression', 'Decision Tree', 'Random Forest', 'Naive Bayes']
+    accuracies = [accuracy, accuracy2, accuracy3, accuracy4]
+    ax.bar(models, accuracies, color=['blue', 'green', 'red', 'purple'])
+    ax.set_xlabel('Models')
+    ax.set_ylabel('Accuracy')
+    ax.set_title('Model Accuracies')
+    ax.set_ylim(0, 1)
+    st.pyplot(fig)
 
 elif choose == 'About':
           st.write("# about us")
@@ -115,6 +127,9 @@ elif choose == 'Contact':
               Message = st.text_input(label="please enter your message: ")
               submitted = st.form_submit_button('Submit')
               if submitted:
-                st.write("thank for you contacting us. We will respond to your question or inquiries as soon.")
+                st.write("Thank you for contacting us. We will respond to your question or inquiries as soon as possible. :email:")
+
+
+
 
 
