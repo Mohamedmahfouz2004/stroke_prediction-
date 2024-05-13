@@ -6,4 +6,5 @@ numpy
 requests
 streamlit_option_menu
 streamlit-lottie
-matplotlib.pyplot
+matplotlib
+
